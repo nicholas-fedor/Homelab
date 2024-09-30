@@ -1,0 +1,55 @@
+#---------------------------------------------------------------------#
+#                                Traefik                              #
+#---------------------------------------------------------------------#
+name: traefik
+
+networks:
+  proxy:
+    external: true
+
+secrets:
+  CLOUDFLARE_EMAIL:
+    file: ./secrets/CLOUDFLARE_EMAIL
+  CLOUDFLARE_DNS_API_TOKEN:
+    file: ./secrets/CLOUDFLARE_DNS_API_TOKEN
+
+services:
+  traefik:
+    image: traefik:v3.1.4
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CLOUDFLARE_EMAIL_FILE=/run/secrets/CLOUDFLARE_EMAIL
+      - CLOUDFLARE_DNS_API_TOKEN_FILE=/run/secrets/CLOUDFLARE_DNS_API_TOKEN
+    secrets:
+      - CLOUDFLARE_EMAIL
+      - CLOUDFLARE_DNS_API_TOKEN
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./data/conf:/etc/traefik/conf:ro
+      - ./data/certs/acme.json:/acme.json
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - traefik.http.routers.traefik.rule=Host(`traefik-dashboard.nickfedor.dev`)
+      - traefik.http.routers.traefik.middlewares=traefik-https-redirect
+      - traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.routers.traefik-secure.entrypoints=https
+      - traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.nickfedor.dev`)
+      - traefik.http.routers.traefik-secure.service=api@internal
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.traefik-secure.tls.domains[0].main=nickfedor.dev
+      - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.nickfedor.dev
+      - traefik.http.routers.traefik-secure.middlewares=authentik@file
+

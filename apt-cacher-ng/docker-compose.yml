@@ -1,0 +1,27 @@
+#---------------------------------------------------------------------#
+#                             Apt-Cacher-ng                           #
+#---------------------------------------------------------------------#
+name: apt-cacher-ng
+
+services:
+  apt-cacher-ng:
+    image: nicholas-fedor/apt-cacher-ng
+    container_name: apt-cacher-ng
+    restart: always
+    volumes:
+      - ./data:/var/cache/apt-cacher-ng
+    ports:
+      - 3142:3142
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.apt-cacher-ng.rule=Host(`apt-cacher-ng.nickfedor.dev`)
+      - traefik.http.routers.apt-cacher-ng.entrypoints=https
+      - traefik.http.routers.apt-cacher-ng.tls=true
+      - traefik.http.services.apt-cacher-ng.loadbalancer.server.port=3142
+      - traefik.http.routers.apt-cacher-ng.middlewares=authentik@file
+
+networks:
+  proxy:
+    external: true

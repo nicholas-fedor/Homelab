@@ -1,0 +1,7 @@
+*
+!.gitignore
+!docker-compose.yml
+!Dockerfile
+!entrypoint.sh
+!Makefile
+!README.md

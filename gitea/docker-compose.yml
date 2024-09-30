@@ -1,0 +1,30 @@
+#---------------------------------------------------------------------#
+#                                  Gitea                              #
+#---------------------------------------------------------------------#
+name: gitea
+
+services:
+  server:
+    container_name: gitea
+    image: gitea/gitea:1.22.2-rootless
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/gitea
+      - ./config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 2222:2222
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gitea.rule=Host(`gitea.nickfedor.dev`)
+      - traefik.http.routers.gitea.entrypoints=https
+      - traefik.http.routers.gitea.tls=true
+      - traefik.http.routers.gitea.tls.certresolver=cloudflare
+      - traefik.http.services.gitea.loadbalancer.server.port=3000
+
+networks:
+  proxy:
+    external: true

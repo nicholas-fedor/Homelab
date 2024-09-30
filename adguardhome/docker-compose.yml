@@ -1,0 +1,44 @@
+#---------------------------------------------------------------------#
+#                               AdGuard Home                          #
+#---------------------------------------------------------------------#
+name: adguardhome
+
+services:
+    adguardhome:
+        image: adguard/adguardhome
+        restart: unless-stopped
+        container_name: adguardhome
+        volumes:
+            - ./conf:/opt/adguardhome/conf
+            - ./data:/opt/adguardhome/work
+#        expose:
+#          - "80"
+#          - "53"
+#          - "853"
+        ports:
+          - 53:53/udp
+          - 53:53/tcp
+        labels:
+          - traefik.enable=true
+          - traefik.http.routers.adguardhome.entrypoints=web
+          - traefik.http.routers.adguardhome.rule=Host(`adguardhome.nickfedor.dev`)
+          - traefik.http.routers.adguardhome.middlewares=https-redirect@file
+          - traefik.http.routers.adguardhome-secure.entrypoints=https
+          - traefik.http.routers.adguardhome-secure.rule=Host(`adguardhome.nickfedor.dev`)
+          - traefik.http.routers.adguardhome-secure.tls=true
+          - traefik.http.routers.adguardhome-secure.tls.certresolver=letsencrypt
+          - traefik.http.routers.adguardhome-secure.service=adguardhome-secure
+          - traefik.http.routers.adguardhome-secure.loadbalancer.server.port=80
+          - traefik.docker.network=proxy
+          - traefik.tcp.routers.adguardhome-tls.rule=HostSNI(`adguardhome.nickfedor.dev`)
+          - traefik.tcp.routers.adguardhome-tls.tls=true
+          - traefik.tcp.routers.adguardhome-tls.entrypoints=dot
+          - traefik.tcp.routers.adguardhome-tls.tls.certresolver=letsencrypt
+          - traefik.tcp.routers.adguardhome-tls.service=adguardhome.tls
+          - traefik.tcp.routers.adguardhome-tls.loadbalancer.server.port=53
+        networks:
+          - proxy
+
+networks:
+  proxy:
+    external: true
