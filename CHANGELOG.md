@@ -58,6 +58,10 @@
 - Added project-level `Notes.md`.
 - Recreated Git repository.
 
+2024-09-30
+
+- Added documentation regarding setting up Macvlan networking for Docker containers.
+
 ----------
 
 [Return to Top](/CHANGELOG.md)
