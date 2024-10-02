@@ -60,7 +60,12 @@
 
 2024-09-30
 
-- Added documentation regarding setting up Macvlan networking for Docker containers.
+- Added documentation regarding setting up Macvlan networking for Docker
+  containers.
+
+2024-10-02
+
+- Added Calibre
 
 ----------
 
