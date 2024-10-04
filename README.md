@@ -10,10 +10,12 @@ Repository for documenting my homelab.
 
 * [Apt-Cacher-ng](/apt-cacher-ng/README.md)
 * [Authentik](/authentik/README.md)
+* [Calibre](/calibre/README.md)
 * [CyberChef](/cyberchef/README.md)
 * [Draw.io](/drawio/README.md)
 * [FreshRSS](/freshrss/README.md)
 * [Gitea](/gitea/README.md)
+* [Go Playground](/go-playground/README.md)
 * [Homarr](/homarr/README.md)
 * [IT Tools](/it-tools/README.md)
 * [Traefik](/traefik/README.md)

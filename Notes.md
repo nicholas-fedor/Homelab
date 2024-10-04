@@ -113,3 +113,16 @@ issue that prevents containers from resolving URI's, such as
 
 I suspect that switching over to using macvlan networking, where each container
 can be assigned its own IP address, will help resolve this issue.
+
+## Resource Usage
+
+Upon starting to use Calibre to manage my collection of ebooks, I have
+encountered the service utilizing 20GB+ of memory usage and heavy CPU usage
+while importing and converting media.
+
+This has led me to move the Docker VM to a separate workstation that I've
+repurposed into a Proxmox server.
+
+I am eager to find a more permanent solution, such as converting my TrueNAS
+server to another Proxmox node with TrueNAS virtualized instead of running it
+on bare metal.
