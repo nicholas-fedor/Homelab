@@ -16,6 +16,12 @@
   with using Authentik as a OIDC auth provider.
   Containers are internally having trouble resolving [app].nickfedor.dev url's.
 
+### AdGuard Home
+
+- Figure out docker-compose configuration to allow for web interface via
+  Traefik, but DNS routing direct to application. DoH (Port 443) is the most
+  troublesome to figure out. Again, Macvlan networking will help resolve this.
+
 ### Future Applications
 
 - Lama Cleaner
@@ -24,7 +30,7 @@
 
 - Overseer
 
-- Plex?
+- Plex
 
 - Radarr
 
@@ -63,14 +69,6 @@
 - Prometheus
 
 - Grafana
-
-### Existing
-
-#### AdGuard Home
-
-- Figure out docker-compose configuration to allow for web interface via
-  Traefik, but DNS routing direct to application. DoH (Port 443) is the most
-  troublesome to figure out.
 
 ----------
 
