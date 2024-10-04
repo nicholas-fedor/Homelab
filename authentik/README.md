@@ -72,12 +72,6 @@ the Traefik proxy url without issue.
   integration.
 - Using forward auth for the time being.
 
-### [Outline](https://docs.goauthentik.io/integrations/services/outline/)
-
-- Link: <https://docs.goauthentik.io/integrations/services/outline/>
-
-- TBD
-
 ## Notes
 
 - Deployment includes the addition of a middleware for Traefik. The file is
