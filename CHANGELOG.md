@@ -67,6 +67,10 @@
 
 - Added Calibre
 
+2024-10-03
+
+- Added Go Playground
+
 ----------
 
 [Return to Top](/CHANGELOG.md)

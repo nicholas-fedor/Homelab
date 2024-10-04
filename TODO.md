@@ -46,8 +46,6 @@
 
 - SearxNG
 
-- Go Playground
-
 - Metube
 
 - Tube Archivist
