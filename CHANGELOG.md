@@ -71,6 +71,15 @@
 
 - Added Go Playground
 
+2024-10-04
+
+- Disabled redundant connection points for Traefik proxy to Proxmox.
+
+2024-10-05
+
+- Added Paperless-ngx
+- Minor update to Authentik ensuring correct network is used for Traefik.
+
 ----------
 
 [Return to Top](/CHANGELOG.md)
