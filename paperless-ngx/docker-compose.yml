@@ -1,0 +1,104 @@
+#---------------------------------------------------------------------#
+#                              Paperless-ngx                          #
+#---------------------------------------------------------------------#
+name: paperless-ngx
+
+services:
+  paperless-ngx-redis:
+    image: docker.io/library/redis:7
+    restart: unless-stopped
+    container_name: paperless-ngx-redis
+    volumes:
+      - ./data/database/redis:/data
+    networks:
+      - paperless-backend
+
+  paperless-ngx-postgres:
+    image: docker.io/library/postgres:16
+    restart: unless-stopped
+    container_name: paperless-ngx-postgres
+    volumes:
+      - ./data/database/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+    networks:
+      - paperless-backend
+
+  paperless-ngx-server:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    container_name: paperless-ngx-server
+    depends_on:
+      - paperless-ngx-redis
+      - paperless-ngx-postgres
+      - paperless-ngx-gotenberg
+      - paperless-ngx-tika
+    volumes:
+      - ./data/paperless-data:/usr/src/paperless/data
+      - ./data/media:/usr/src/paperless/media
+      - ./data/export:/usr/src/paperless/export
+      - ./data/import:/usr/src/paperless/consume
+    secrets:
+      - PAPERLESS_ADMIN_USER
+      - PAPERLESS_ADMIN_MAIL
+      - PAPERLESS_ADMIN_PASSWORD
+      - PAPERLESS_SECRET_KEY
+    env_file: .env
+    environment:
+      PAPERLESS_ADMIN_USER_FILE: /run/secrets/PAPERLESS_ADMIN_USER
+      PAPERLESS_ADMIN_MAIL_FILE: /run/secrets/PAPERLESS_ADMIN_MAIL
+      PAPERLESS_ADMIN_PASSWORD_FILE: /run/secrets/PAPERLESS_ADMIN_PASSWORD
+      PAPERLESS_SECRET_KEY_FILE: /run/secrets/PAPERLESS_SECRET_KEY
+    ports:
+      - 8000:8000
+    networks:
+      - proxy
+      - paperless-backend
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.paperless.rule=Host(`paperless.nickfedor.dev`)
+      - traefik.http.routers.paperless.entrypoints=https
+      - traefik.http.routers.paperless.service=paperless
+      - traefik.http.services.paperless.loadbalancer.server.port=8000
+      - traefik.http.routers.paperless.tls=true
+      - traefik.http.routers.paperless.tls.certresolver=cloudflare
+      - traefik.http.routers.paperless.middlewares=authentik@file
+
+  paperless-ngx-gotenberg:
+    image: docker.io/gotenberg/gotenberg:8.7
+    restart: unless-stopped
+    container_name: paperless-ngx-gotenberg
+    # The gotenberg chromium route is used to convert .eml files. We do not
+    # want to allow external content like tracking pixels or even javascript.
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+    networks:
+      - paperless-backend
+
+  paperless-ngx-tika:
+    image: docker.io/apache/tika:latest
+    restart: unless-stopped
+    container_name: paperless-ngx-tika
+    networks:
+      - paperless-backend
+
+networks:
+  proxy:
+    external: true
+  paperless-backend:
+    external: true
+
+secrets:
+  PAPERLESS_ADMIN_USER:
+    file: ./secrets/PAPERLESS_ADMIN_USER
+  PAPERLESS_ADMIN_MAIL:
+    file: ./secrets/PAPERLESS_ADMIN_MAIL
+  PAPERLESS_ADMIN_PASSWORD:
+    file: ./secrets/PAPERLESS_ADMIN_PASSWORD
+  PAPERLESS_SECRET_KEY:
+    file: ./secrets/PAPERLESS_SECRET_KEY

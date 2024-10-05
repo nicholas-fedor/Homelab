@@ -44,6 +44,11 @@ echo "AUTHENTIK_SECRET_KEY=$(openssl rand -base64 60 | tr -d '\n')" >> .env
 
 ## Integrations
 
+### Traefik
+
+- Use the `traefik.docker.network=proxy` to set the Authentik server to connect
+  to Traefik via the `proxy` network.
+
 ### Proxmox VE
 
 - Link: <https://docs.goauthentik.io/integrations/services/proxmox-ve/>
