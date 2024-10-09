@@ -19,6 +19,7 @@ Repository for documenting my homelab.
 * [Homarr](/homarr/README.md)
 * [IT Tools](/it-tools/README.md)
 * [Traefik](/traefik/README.md)
+* [VSCode Server](/code-server/README.md)
 * [Watchtower](/watchtower/README.md)
 
 ## Additional Documentation
