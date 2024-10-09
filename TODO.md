@@ -50,8 +50,6 @@
 
 - Tautulli
 
-- SearxNG
-
 - Metube
 
 - Tube Archivist

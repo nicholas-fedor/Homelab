@@ -83,6 +83,7 @@
 2024-10-08
 
 - Added VSCode server
+- Added SearXNG
 
 ----------
 
