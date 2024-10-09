@@ -80,6 +80,10 @@
 - Added Paperless-ngx
 - Minor update to Authentik ensuring correct network is used for Traefik.
 
+2024-10-08
+
+- Added VSCode server
+
 ----------
 
 [Return to Top](/CHANGELOG.md)
