@@ -126,3 +126,11 @@ repurposed into a Proxmox server.
 I am eager to find a more permanent solution, such as converting my TrueNAS
 server to another Proxmox node with TrueNAS virtualized instead of running it
 on bare metal.
+
+## Internal and External Networks
+
+When setting up applications that require additional containers to run backend
+services, such as storage or caching, it is common to utilize a separate
+network. As this is an internal network, when configuring via Docker Compose,
+it's important to set the `External` option to `false` under the `Network`
+top-level element.
