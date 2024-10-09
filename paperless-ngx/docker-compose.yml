@@ -91,7 +91,7 @@ networks:
   proxy:
     external: true
   paperless-backend:
-    external: true
+    external: false
 
 secrets:
   PAPERLESS_ADMIN_USER:

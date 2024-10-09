@@ -98,7 +98,7 @@ networks:
   proxy:
     external: true
   storage:
-    external: true
+    external: false
 
 
 volumes:
