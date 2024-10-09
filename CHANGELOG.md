@@ -84,6 +84,7 @@
 
 - Added VSCode server
 - Added SearXNG
+- Correct backend network misconfigurations
 
 ----------
 
