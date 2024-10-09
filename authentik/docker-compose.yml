@@ -4,7 +4,7 @@
 name: authentik
 
 services:
-  postgresql:
+  authentik-postgresql:
     container_name: authentik-postgres
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -23,7 +23,7 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
 
-  redis:
+  authentik-redis:
     container_name: authentik-redis
     image: redis:alpine
     restart: unless-stopped
@@ -39,13 +39,13 @@ services:
       - storage
     command: --save 60 1 --loglevel warning
 
-  server:
+  authentik-server:
     container_name: authentik-server
     image: ghcr.io/goauthentik/server:2024.8.3
     restart: unless-stopped
     depends_on:
-      - postgresql
-      - redis
+      - authentik-postgresql
+      - authentik-redis
     volumes:
       - ./data/media:/media
       - ./data/custom-templates:/templates
@@ -54,8 +54,8 @@ services:
       - storage
     command: server
     environment:
-      - AUTHENTIK_REDIS__HOST=redis
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_REDIS__HOST=authentik-redis
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
       - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
       - AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER}
       - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
@@ -70,13 +70,13 @@ services:
       - traefik.http.routers.authentik.tls=true
       - traefik.http.routers.authentik.tls.certresolver=cloudflare
 
-  worker:
+  authentik-worker:
     container_name: authentik-worker
     image: ghcr.io/goauthentik/server:2024.8.3
     restart: unless-stopped
     depends_on:
-      - postgresql
-      - redis
+      - authentik-postgresql
+      - authentik-redis
     user: root
     command: worker
     volumes:
@@ -87,8 +87,8 @@ services:
     networks:
       - storage
     environment:
-      - AUTHENTIK_REDIS__HOST=redis
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_REDIS__HOST=authentik-redis
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
       - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
       - AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER}
       - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
