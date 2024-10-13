@@ -86,6 +86,11 @@
 - Added SearXNG
 - Correct backend network misconfigurations
 
+2024-10-13
+
+- Reorganized compose file structure
+- Updated Traefik dynamic configuration files
+
 ----------
 
 [Return to Top](/CHANGELOG.md)
