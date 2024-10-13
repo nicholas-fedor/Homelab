@@ -1,0 +1,20 @@
+#---------------------------------------------------------------------#
+#                          Nick's Homelab                             #
+#---------------------------------------------------------------------#
+
+include:
+  - path: 'apt-cacher-ng/docker-compose.yml'
+  - path: 'authentik/docker-compose.yml'
+  - path: 'calibre/docker-compose.yml'
+  - path: 'code-server/docker-compose.yml'
+  - path: 'cyberchef/docker-compose.yml'
+  - path: 'drawio/docker-compose.yml'
+  - path: 'freshrss/docker-compose.yml'
+  - path: 'gitea/docker-compose.yml'
+  - path: 'go-playground/docker-compose.yml'
+  - path: 'homarr/docker-compose.yml'
+  - path: 'it-tools/docker-compose.yml'
+  - path: 'paperless-ngx/docker-compose.yml'
+  - path: 'searxng/docker-compose.yml'
+  - path: 'traefik/docker-compose.yml'
+  - path: 'watchtower/docker-compose.yml'
