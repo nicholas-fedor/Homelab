@@ -134,3 +134,39 @@ services, such as storage or caching, it is common to utilize a separate
 network. As this is an internal network, when configuring via Docker Compose,
 it's important to set the `External` option to `false` under the `Network`
 top-level element.
+
+## Directory Permissions
+
+This homelab uses a NFS share on my TrueNAS NAS for data storage.
+The NFS share is mounted to the Docker host and an `/home/Nick/Apps` directory is
+symbolically linked to the `/mnt/TrueNAS/Apps` directory.
+
+When it comes to NFS shares and datasets on TrueNAS, it's important to remember
+that a NFS share for a parent dataset will behave differently from its child
+datasets' own NFS shares. In addition, it's important to remember that while
+Docker itself often runs as root, the applications running within containers may
+also have their own users and groups that their processes run as.
+
+tl;dr - Things can easily become messy when running Docker on a host that's
+using an NFS share for data storage.
+
+To help solve this problem, there are a few important items:
+
+- The TrueNAS dataset needs to be owned by the same user that the NFS share's
+  clients are mapped to.
+- As previously mentioned, the `Mapall User` advanced NFS Share setting needs to
+  match the dataset owner.
+- That dataset owner/user must have `full control` permissions set via TrueNAS.
+
+There's also the option for Docker containers to be provided PUID and GUID
+settings via environment variables; however, I have had limited luck with this.
+
+As an aside, Docker does has the option to mount volumes as NFS shares; however,
+I've had limited experience in setting this up.
+I briefly looked at doing this for my Traefik container; however, this was put
+on hold when trying to determine an appropriate way to migrate from my current structure.
+
+Overall, this is something I'm still trying to learn and master. I'll need to
+document this further once I have a final way to securely accomplish this.
+
+---

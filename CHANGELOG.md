@@ -90,6 +90,7 @@
 
 - Reorganized compose file structure
 - Updated Traefik dynamic configuration files
+- Added note regarding NFS shares and permissions
 
 ----------
 
