@@ -3,6 +3,10 @@
 #---------------------------------------------------------------------#
 name: nginx-hello
 
+networks:
+  proxy:
+    external: true
+
 services:
   nginx:
     image: nginxdemos/nginx-hello
@@ -15,7 +19,3 @@ services:
       - traefik.http.services.nginx.loadbalancer.server.port=8080
     networks:
       - proxy
-
-networks:
-  proxy:
-    external: true

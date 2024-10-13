@@ -3,16 +3,17 @@
 #---------------------------------------------------------------------#
 name: go-playground
 
+networks:
+  proxy:
+    external: true
+
 services:
   go-playground:
     container_name: go-playground
-    image: ghcr.io/x1unix/go-playground/go-playground:latest
-    restart: unless-stopped
     environment:
       - APP_PLAYGROUND_URL=https://play.golang.org
       - APP_GOTIP_URL=https://gotipplay.golang.org
-    networks:
-      - proxy
+    image: ghcr.io/x1unix/go-playground/go-playground:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.go-playground.rule=Host(`go-playground.nickfedor.dev`)
@@ -22,7 +23,6 @@ services:
       - traefik.http.routers.go-playground.service=go-playground
       - traefik.http.services.go-playground.loadbalancer.server.port=8000
       - traefik.http.routers.go-playground.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped

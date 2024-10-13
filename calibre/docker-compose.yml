@@ -3,18 +3,14 @@
 #---------------------------------------------------------------------#
 name: calibre
 
+networks:
+  proxy:
+    external: true
+
 services:
   calibre:
-    # https://hub.docker.com/r/linuxserver/calibre
-    image: linuxserver/calibre
-    restart: unless-stopped
     container_name: calibre
-    volumes:
-      - ./data/calibre/config:/config
-      - ./data/calibre/Books:/library
-      - ./data/calibre/Downloads:/Downloads
-    networks:
-      - proxy
+    image: linuxserver/calibre
     labels:
       - traefik.enable=true
       - traefik.http.routers.calibre.rule=Host(`calibre.nickfedor.dev`)
@@ -24,17 +20,17 @@ services:
       - traefik.http.routers.calibre.tls=true
       - traefik.http.routers.calibre.tls.certresolver=cloudflare
       - traefik.http.routers.calibre.middlewares=authentik@file
-
-  calibre-web:
-    # https://hub.docker.com/r/linuxserver/calibre-web
-    image: linuxserver/calibre-web
-    restart: unless-stopped
-    container_name: calibre-web
-    volumes:
-      - ./data/calibre-web/config:/config
-      - ./data/calibre/Books:/library
     networks:
       - proxy
+    restart: unless-stopped
+    volumes:
+      - ./data/calibre/config:/config
+      - ./data/calibre/Books:/library
+      - ./data/calibre/Downloads:/Downloads
+
+  calibre-web:
+    container_name: calibre-web
+    image: linuxserver/calibre-web
     labels:
       - traefik.enable=true
       - traefik.http.routers.calibre-web.rule=Host(`calibre-web.nickfedor.dev`)
@@ -44,7 +40,9 @@ services:
       - traefik.http.routers.calibre-web.tls=true
       - traefik.http.routers.calibre-web.tls.certresolver=cloudflare
       - traefik.http.routers.calibre-web.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped
+    volumes:
+      - ./data/calibre-web/config:/config
+      - ./data/calibre/Books:/library

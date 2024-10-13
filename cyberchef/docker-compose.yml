@@ -3,13 +3,14 @@
 #---------------------------------------------------------------------#
 name: cyberchef
 
+networks:
+  proxy:
+    external: true
+
 services:
   cyberchef:
-    image: ghcr.io/gchq/cyberchef:10.19.2
-    restart: unless-stopped
     container_name: cyberchef
-    networks:
-      - proxy
+    image: ghcr.io/gchq/cyberchef:10.19.2
     labels:
       - traefik.enable=true
       - traefik.http.routers.cyberchef.rule=Host(`cyberchef.nickfedor.dev`)
@@ -19,7 +20,6 @@ services:
       - traefik.http.routers.cyberchef.tls=true
       - traefik.http.routers.cyberchef.tls.certresolver=cloudflare
       - traefik.http.routers.cyberchef.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped

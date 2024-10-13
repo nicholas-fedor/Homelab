@@ -3,23 +3,19 @@
 #---------------------------------------------------------------------#
 name: homarr
 
+networks:
+  proxy:
+    external: true
+
 services:
   homarr:
     container_name: homarr
-    image: ghcr.io/ajnart/homarr:0.15.4
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/configs:/app/data/configs
-      - ./data/icons:/app/public/icons
-      - ./data/database:/data
     environment:
       - BASE_URL=homarr.nickfedor.dev
       - DEFAULT_COLOR_SCHEME=dark
       - TZ=America/Phoenix
       - DISABLE_ANALYTICS=true
-    networks:
-      - proxy
+    image: ghcr.io/ajnart/homarr:0.15.4
     labels:
       - traefik.enable=true
       - traefik.http.routers.homarr.rule=Host(`homarr.nickfedor.dev`)
@@ -29,7 +25,11 @@ services:
       - traefik.http.routers.homarr.service=homarr
       - traefik.http.services.homarr.loadbalancer.server.port=7575
       - traefik.http.routers.homarr.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/configs:/app/data/configs
+      - ./data/icons:/app/public/icons
+      - ./data/database:/data

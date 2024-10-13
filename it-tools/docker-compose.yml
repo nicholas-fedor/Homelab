@@ -3,13 +3,14 @@
 #---------------------------------------------------------------------#
 name: it-tools
 
+networks:
+  proxy:
+    external: true
+
 services:
   it-tools:
-    image: ghcr.io/corentinth/it-tools:latest
-    restart: unless-stopped
     container_name: it-tools
-    networks:
-      - proxy
+    image: ghcr.io/corentinth/it-tools:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.it-tools.rule=Host(`it-tools.nickfedor.dev`)
@@ -19,7 +20,6 @@ services:
       - traefik.http.routers.it-tools.tls=true
       - traefik.http.routers.it-tools.tls.certresolver=cloudflare
       - traefik.http.routers.it-tools.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped

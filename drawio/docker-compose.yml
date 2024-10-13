@@ -3,13 +3,14 @@
 #---------------------------------------------------------------------#
 name: drawio
 
+networks:
+  proxy:
+    external: true
+
 services:
   drawio:
-    image: nickfedor/drawio
     container_name: drawio
-    restart: unless-stopped
-    networks:
-      - proxy
+    image: nickfedor/drawio
     labels:
       - traefik.enable=true
       - traefik.http.routers.drawio.rule=Host(`drawio.nickfedor.dev`)
@@ -18,7 +19,6 @@ services:
       - traefik.http.routers.drawio.tls.certresolver=cloudflare
       - traefik.http.services.drawio.loadbalancer.server.port=8080
       - traefik.http.routers.drawio.middlewares=authentik@file
-
-networks:
-  proxy:
-    external: true
+    networks:
+      - proxy
+    restart: unless-stopped
