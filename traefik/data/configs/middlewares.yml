@@ -1,29 +1,4 @@
-#region routers
 http:
-  routers:
-    proxmox:
-      entryPoints:
-        - "https"
-      rule: "Host(`proxmox.nickfedor.dev`)"
-      middlewares:
-        - secured
-      tls:
-        certresolver: cloudflare
-      service: proxmox
-#endregion
-
-#region services
-  services:
-    proxmox:
-      loadBalancer:
-        servers:
-          # - url: "https://192.168.50.51:8006"
-          # - url: "https://192.168.50.52:8006"
-          # - url: "https://192.168.50.53:8006"
-          - url: "https://192.168.50.5:8006"
-        passHostHeader: true
-#endregion
-
 #region middlewares
   middlewares:
     https-redirectscheme:
