@@ -95,7 +95,7 @@
 2024-10-14
 
 - Additional updates to Traefik configuration files
-- Temporarily moving hosting of SearXNG to a TrueNAS app
+- Removed Redis backend for SearXNG. Testing if this resolves a timeout issue.
 
 ----------
 

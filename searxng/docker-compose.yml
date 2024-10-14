@@ -6,8 +6,6 @@ name: searxng
 networks:
   proxy:
     external: true
-  searxng-storage:
-    external: false
 
 services:
   searxng:
@@ -18,13 +16,10 @@ services:
       - SETGID
       - SETUID
     container_name: searxng
-    depends_on:
-      - searxng-redis
     environment:
       - SEARXNG_BASE_URL=https://searxng.nickfedor.dev/
       - SEARXNG_PORT=8080
       - SEARXNG_IMAGE_PROXY=true
-      - SEARXNG_REDIS_URL=redis://searxng-redis:6379
     image: searxng/searxng:latest
     labels:
       - traefik.enable=true
@@ -42,36 +37,8 @@ services:
         max-file: "1"
     networks:
       - proxy
-      - searxng-storage
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     volumes:
       - ./data/searxng:/etc/searxng:rw
-  
-  searxng-redis:
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-    command: --save 30 1 --loglevel warning
-    container_name: searxng-redis
-    image: redis:alpine
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
-    networks:
-      - searxng-storage
-    restart: unless-stopped
-    volumes:
-      - ./data/redis:/data

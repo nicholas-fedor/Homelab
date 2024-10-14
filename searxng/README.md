@@ -40,7 +40,8 @@ Private metasearch engine.
 
 - Using Traefik, so the suggested compose file that includes Caddy is amended
   accordingly.
-- I am running into a timeout issue during searches. Temporarily switching over
-  to using a SearXNG instance hosted via TrueNAS until this is resolved.
+
+- The source Docker Compose reference includes a Redis backend. This is not
+  needed for my use case.
 
 ----------
