@@ -29,7 +29,7 @@ Tutorial](https://technotim.live/posts/traefik-3-docker-certificates/).
 [Forward Authentication Documentation](https://docs.goauthentik.io/docs/providers/proxy/server_traefik)
 
 Authentik was added as a middleware by using a separate configuration file
-`authentik.yml`.
+`middleware-authentik.yml`.
 To add forward authentication to an application, use the the following label:
 
 ```docker-compose.yml

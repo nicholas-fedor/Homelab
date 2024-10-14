@@ -38,6 +38,9 @@ Private metasearch engine.
 
 ## Notes
 
-- Using Traefik, so the suggested compose file that includes Caddy is amended accordingly.
+- Using Traefik, so the suggested compose file that includes Caddy is amended
+  accordingly.
+- I am running into a timeout issue during searches. Temporarily switching over
+  to using a SearXNG instance hosted via TrueNAS until this is resolved.
 
 ----------

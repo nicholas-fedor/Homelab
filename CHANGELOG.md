@@ -92,6 +92,11 @@
 - Updated Traefik dynamic configuration files
 - Added note regarding NFS shares and permissions
 
+2024-10-14
+
+- Additional updates to Traefik configuration files
+- Temporarily moving hosting of SearXNG to a TrueNAS app
+
 ----------
 
 [Return to Top](/CHANGELOG.md)
