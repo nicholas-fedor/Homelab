@@ -18,19 +18,29 @@ File management program that I'm using for more efficiently grabbing OS ISOs.
 
 ## Syncing the following ISOs
 Ubuntu Daily Live Server
-<https://cdimage.ubuntu.com/ubuntu-server/daily-live/current/oracular-live-server-amd64.iso>
-<https://cdimage.ubuntu.com/ubuntu-server/noble/daily-live/current/noble-live-server-amd64.iso>
+
+- <https://cdimage.ubuntu.com/ubuntu-server/daily-live/current/oracular-live-server-amd64.iso>  
+- <https://cdimage.ubuntu.com/ubuntu-server/noble/daily-live/current/noble-live-server-amd64.iso>
 
 Debian Full Release Version
-<https://cdimage.debian.org/cdimage/release/current/amd64/iso-dvd/debian-12.7.0-amd64-DVD-1.iso>
+
+- <https://cdimage.debian.org/cdimage/release/current/amd64/iso-dvd/debian-12.7.0-amd64-DVD-1.iso>
+
 Debian Net Installer Release Version
-<https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso>
+
+- <https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso>
+
 Debian Daily Version
-<https://cdimage.debian.org/cdimage/daily-builds/daily/current/amd64/iso-cd/debian-testing-amd64-netinst.iso>
+
+- <https://cdimage.debian.org/cdimage/daily-builds/daily/current/amd64/iso-cd/debian-testing-amd64-netinst.iso>
+
 Debian Daily Cloud Image QCOW
-<https://cdimage.debian.org/cdimage/cloud/bookworm/daily/latest/debian-12-generic-amd64-daily.qcow2>
+
+- <https://cdimage.debian.org/cdimage/cloud/bookworm/daily/latest/debian-12-generic-amd64-daily.qcow2>
+
 Debian Daily Cloud Image RAW
-<https://cdimage.debian.org/cdimage/cloud/bookworm/daily/latest/debian-12-generic-amd64-daily.raw>
+
+- <https://cdimage.debian.org/cdimage/cloud/bookworm/daily/latest/debian-12-generic-amd64-daily.raw>  
 
 ## Host Setup
 
@@ -54,4 +64,3 @@ Debian Daily Cloud Image RAW
   ISOs. Rclone hasn't accomplished the task just yet; however, it's an
   improvement over manually going to the download sites and/or using the Proxmox
   GUI for the downloads.
-  
