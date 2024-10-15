@@ -6,20 +6,25 @@ name: searxng
 networks:
   proxy:
     external: true
+  # cache:
+  #   external: false
 
 services:
   searxng:
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
     container_name: searxng
+    # depends_on:
+    #   - searxng-redis
     environment:
       - SEARXNG_BASE_URL=https://searxng.nickfedor.dev/
       - SEARXNG_PORT=8080
       - SEARXNG_IMAGE_PROXY=true
+      # - SEARXNG_REDIS_URL=redis://searxng-redis:6379
     image: searxng/searxng:latest
     labels:
       - traefik.enable=true
@@ -29,7 +34,7 @@ services:
       - traefik.http.routers.searxng.tls=true
       - traefik.http.routers.searxng.tls.certresolver=cloudflare
       - traefik.http.services.searxng.loadbalancer.server.port=8080
-      - traefik.http.routers.searxng.middlewares=authentik@file
+      # - traefik.http.routers.searxng.middlewares=authentik@file
     logging:
       driver: "json-file"
       options:
@@ -37,8 +42,29 @@ services:
         max-file: "1"
     networks:
       - proxy
+      # - cache
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+    # security_opt:
+    #   - no-new-privileges:true
     volumes:
       - ./data/searxng:/etc/searxng:rw
+
+#   searxng-redis:
+#     command: --save 60 1 --loglevel warning
+#     container_name: searxng-redis
+#     healthcheck:
+#       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+#       start_period: 20s
+#       interval: 30s
+#       retries: 5
+#       timeout: 3s
+#     image: redis:alpine
+#     networks:
+#       - cache
+#     restart: unless-stopped
+#     volumes:
+#       - redis:/data
+
+# volumes:
+#   redis:
+#     driver: local
