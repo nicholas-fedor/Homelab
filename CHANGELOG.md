@@ -97,6 +97,10 @@
 - Additional updates to Traefik configuration files
 - Removed Redis backend for SearXNG. Testing if this resolves a timeout issue.
 
+2024-10-16
+
+- Added Ghost CMS
+
 ----------
 
 [Return to Top](/CHANGELOG.md)

@@ -14,6 +14,7 @@ Repository for documenting my homelab.
 * [CyberChef](/cyberchef/README.md)
 * [Draw.io](/drawio/README.md)
 * [FreshRSS](/freshrss/README.md)
+* [Ghost](/ghost/README.md)
 * [Gitea](/gitea/README.md)
 * [Go Playground](/go-playground/README.md)
 * [Homarr](/homarr/README.md)
