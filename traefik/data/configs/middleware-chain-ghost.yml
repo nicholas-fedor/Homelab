@@ -1,0 +1,14 @@
+http:
+  middlewares:
+    ghost-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-For: https
+          X-Forwarded-Host: https
+          X-Forwarded-Proto: https
+
+    ghost-chain:
+      chain:
+        middlewares:
+          - ghost-headers
+          - https-redirectscheme

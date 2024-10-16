@@ -1,0 +1,22 @@
+http:
+#region routers
+  routers:
+    synology:
+      entryPoints:
+        - "https"
+      rule: "Host(`synology.nickfedor.dev`)"
+      middlewares:
+        - secured
+      tls:
+        certresolver: cloudflare
+      service: synology
+#endregion
+
+#region services
+  services:
+    synology:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.99.10:5001"
+        passHostHeader: true
+#endregion
