@@ -1,22 +1,22 @@
 http:
 #region routers
   routers:
-    searxng:
+    synology:
       entryPoints:
         - "https"
-      rule: "Host(`searxng.nickfedor.dev`)"
+      rule: "Host(`synology.nickfedor.dev`)"
       middlewares:
-        - authentik
+        - secured
       tls:
         certresolver: cloudflare
-      service: searxng
+      service: synology
 #endregion
 
 #region services
   services:
-    searxng:
+    synology:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.100:30053"
+          - url: "https://192.168.99.10:5001"
         passHostHeader: true
 #endregion
