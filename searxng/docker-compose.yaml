@@ -1,0 +1,74 @@
+#---------------------------------------------------------------------#
+#                          SearXNG                                    #
+#---------------------------------------------------------------------#
+name: searxng
+
+networks:
+  cache:
+    external: false
+  proxy:
+    external: true
+
+services:
+  redis:
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    command: valkey-server --save 30 1 --loglevel warning
+    container_name: redis
+    environment:
+      - TZ=America/Phoenix
+    image: docker.io/valkey/valkey:8-alpine
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    networks:
+      - cache
+    restart: unless-stopped
+    volumes:
+      - valkey-data:/data
+
+  searxng:
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    container_name: searxng
+    dns:
+      - 1.1.1.1
+    environment:
+      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME}/
+      - SEARXNG_PORT=8080
+      - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
+      - UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
+      - TZ=America/Phoenix
+    image: docker.io/searxng/searxng:latest
+    networks:
+      - cache
+      - proxy
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.searxng.rule=Host(`${SEARXNG_HOSTNAME}`)
+      - traefik.http.routers.searxng.entrypoints=https
+      - traefik.http.routers.searxng.tls=true
+      - traefik.http.routers.searxng.tls.certresolver=cloudflare
+      - traefik.http.services.searxng.loadbalancer.server.port=8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    volumes:
+      - ./data:/etc/searxng:rw
+
+volumes:
+  valkey-data:

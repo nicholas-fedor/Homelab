@@ -169,4 +169,24 @@ on hold when trying to determine an appropriate way to migrate from my current s
 Overall, this is something I'm still trying to learn and master. I'll need to
 document this further once I have a final way to securely accomplish this.
 
+## SearXNG Timeouts
+
+This is a nice application for pooling a variety of search engine data and
+getting away from the enshittification of most major search engine UI's.
+Unfortunately, I have found the application a bit of a nightmare to setup.
+The SearXNG documentation is painful to work with. This is largely in part to
+the formatting decision to use underscores "_" for every blank space. Annoying.
+It also tends to skip around a bunch when it comes to setting things up.
+The Docker repo is the easiest path to go; however, it requires mudding through
+stripping away Caddy when using Traefik.
+As to the timeout issue. After spending the time to set things up, it's highly
+probable that DNS issues may occur. I suspect my host system's DNS settings
+might be causing some of the problems; however, I was seeing timeouts on other
+hosts as well.
+In the end, I found that I needed to go through and explicitly set the
+container's DNS to use Cloudflare (1.1.1.1) to remedy things.
+In addition, the blocking of certain country's via Unifi's country blocker was
+also a culprit in some of the errors.
+I'm hopeful that this issue is resolved now.
+
 ---
