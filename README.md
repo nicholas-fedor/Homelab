@@ -19,6 +19,7 @@ Repository for documenting my homelab.
 * [Go Playground](/go-playground/README.md)
 * [Homarr](/homarr/README.md)
 * [IT Tools](/it-tools/README.md)
+* [Rclone](/rclone/README.md)
 * [SearXNG](/searxng/README.md)
 * [Traefik](/traefik/README.md)
 * [VSCode Server](/code-server/README.md)
